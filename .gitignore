@@ -20,6 +20,9 @@
 .idea/**/gradle.xml
 .idea/**/libraries
 
+# Target
+target/**
+
 # CMake
 cmake-build-debug/
 cmake-build-release/

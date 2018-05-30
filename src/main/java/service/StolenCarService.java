@@ -29,6 +29,7 @@ public class StolenCarService {
 
     /**
      * Function to create a new StolenCar and store it in the database
+     *
      * @param stolenCar is the StolenCar object that needs to be stored
      * @return the stolenCar object with ID
      */
@@ -37,7 +38,18 @@ public class StolenCarService {
     }
 
     /**
+     * Function to find a specific StolenCar by it's id
+     *
+     * @param id is the id of the StolenCar
+     * @return a StolenCar object, if found
+     */
+    public StolenCar findById(Long id) {
+        return this.stolenCarDao.findById(id);
+    }
+
+    /**
      * Function to find all StolenCars in the database
+     *
      * @return all StolenCars found in the database
      */
     public List<StolenCar> findAll() {
@@ -46,6 +58,7 @@ public class StolenCarService {
 
     /**
      * Function to convert all StolenCars in a List to JsonObjects
+     *
      * @param stolenCars List of StolenCars
      * @return a List of JsonObjects (JSON representatives of the StolenCar object)
      */

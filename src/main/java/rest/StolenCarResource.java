@@ -39,6 +39,25 @@ public class StolenCarResource {
     }
 
     /**
+     * Resource to find a specific StolenCar by it's id
+     *
+     * @param id is the id of the StolenCar
+     * @return a StolenCar, if found
+     */
+    @GET
+    @Path("{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response findById(@PathParam("id") Long id) {
+        StolenCar stolenCar = stolenCarService.findById(id);
+
+        if (stolenCar == null) {
+            throw new WebApplicationException(Response.Status.NOT_FOUND);
+        }
+
+        return Response.ok(stolenCar.toJson()).build();
+    }
+
+    /**
      * Resource to create a new StolenCar
      *
      * @param stolenCar is the new StolenCar object
