@@ -5,6 +5,7 @@ import service.StolenCarService;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.json.JsonObject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -60,17 +61,18 @@ public class StolenCarResource {
     /**
      * Resource to create a new StolenCar
      *
-     * @param stolenCar is the new StolenCar object
+     * @param json is the new StolenCar object in a JSONObject
      * @return returns a link created with the new id
      */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response create(StolenCar stolenCar) {
-        if (stolenCar == null) {
+    public Response create(JsonObject json) {
+        if (json == null) {
             throw new WebApplicationException(Response.Status.NOT_FOUND);
         }
-        stolenCarService.create(stolenCar);
+        StolenCar stolenCar = new StolenCar(json.getString("name"), json.getBoolean("isStolen"));
+        stolenCar = stolenCarService.create(stolenCar);
         URI id = URI.create(stolenCar.getId().toString());
         return Response.created(id).build();
     }

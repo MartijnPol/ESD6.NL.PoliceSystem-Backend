@@ -21,6 +21,9 @@ public class StartUp {
     public void init() {
         StolenCar stolenVolvo = new StolenCar("Volvo", true);
         this.stolenCarService.create(stolenVolvo);
+
+        StolenCar resolvedCampers = new StolenCar("Campers", false);
+        this.stolenCarService.create(resolvedCampers);
     }
 
 }
