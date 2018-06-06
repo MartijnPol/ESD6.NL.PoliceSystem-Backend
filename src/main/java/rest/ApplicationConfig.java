@@ -11,5 +11,5 @@ public class ApplicationConfig extends Application {
 
     public ApplicationConfig() {
     }
-    
+
 }

@@ -12,19 +12,19 @@ import java.io.Serializable;
  * Created by Martijn van der Pol on 30-05-18
  **/
 @Entity
-public class StolenCar implements Serializable {
+public class StolenVehicle implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
+    private String licensePlate;
     private boolean isStolen;
 
-    public StolenCar() {
+    public StolenVehicle() {
     }
 
-    public StolenCar(String name, boolean isStolen) {
-        this.name = name;
+    public StolenVehicle(String licensePlate, boolean isStolen) {
+        this.licensePlate = licensePlate;
         this.isStolen = isStolen;
     }
 
@@ -36,12 +36,12 @@ public class StolenCar implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getLicensePlate() {
+        return licensePlate;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setLicensePlate(String licensePlate) {
+        this.licensePlate = licensePlate;
     }
 
     public boolean isStolen() {
@@ -53,10 +53,9 @@ public class StolenCar implements Serializable {
     }
 
     public JsonObject toJson() {
-
         return Json.createObjectBuilder()
                 .add("id", this.id)
-                .add("name", this.name)
+                .add("licensePlate", this.licensePlate)
                 .add("isStolen", this.isStolen)
                 .build();
     }

@@ -1,7 +1,7 @@
 package rest;
 
-import domain.StolenCar;
-import service.StolenCarService;
+import domain.StolenVehicle;
+import service.StolenVehicleService;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -17,10 +17,10 @@ import java.util.List;
  **/
 @Path("StolenCars")
 @Stateless
-public class StolenCarResource {
+public class StolenVehicleResource {
 
     @Inject
-    private StolenCarService stolenCarService;
+    private StolenVehicleService stolenCarService;
 
     /**
      * Resource to get all StolenCars from the database
@@ -30,7 +30,7 @@ public class StolenCarResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response findAll() {
-        List<StolenCar> stolenCarList = stolenCarService.findAll();
+        List<StolenVehicle> stolenCarList = stolenCarService.findAll();
 
         if (stolenCarList.isEmpty()) {
             throw new WebApplicationException(Response.Status.NOT_FOUND);
@@ -40,16 +40,16 @@ public class StolenCarResource {
     }
 
     /**
-     * Resource to find a specific StolenCar by it's id
+     * Resource to find a specific StolenVehicle by it's id
      *
-     * @param id is the id of the StolenCar
-     * @return a StolenCar, if found
+     * @param id is the id of the StolenVehicle
+     * @return a StolenVehicle, if found
      */
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response findById(@PathParam("id") Long id) {
-        StolenCar stolenCar = stolenCarService.findById(id);
+        StolenVehicle stolenCar = stolenCarService.findById(id);
 
         if (stolenCar == null) {
             throw new WebApplicationException(Response.Status.NOT_FOUND);
@@ -59,9 +59,9 @@ public class StolenCarResource {
     }
 
     /**
-     * Resource to create a new StolenCar
+     * Resource to create a new StolenVehicle
      *
-     * @param json is the new StolenCar object in a JSONObject
+     * @param json is the new StolenVehicle object in a JSONObject
      * @return returns a link created with the new id
      */
     @POST
@@ -71,7 +71,7 @@ public class StolenCarResource {
         if (json == null) {
             throw new WebApplicationException(Response.Status.NOT_FOUND);
         }
-        StolenCar stolenCar = new StolenCar(json.getString("name"), json.getBoolean("isStolen"));
+        StolenVehicle stolenCar = new StolenVehicle(json.getString("licensePlate"), json.getBoolean("isStolen"));
         stolenCar = stolenCarService.create(stolenCar);
         URI id = URI.create(stolenCar.getId().toString());
         return Response.created(id).build();

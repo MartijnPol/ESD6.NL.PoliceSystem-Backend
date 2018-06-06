@@ -1,6 +1,6 @@
 package service;
 
-import domain.StolenCar;
+import domain.StolenVehicle;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
@@ -15,15 +15,15 @@ import javax.inject.Inject;
 public class StartUp {
 
     @Inject
-    private StolenCarService stolenCarService;
+    private StolenVehicleService stolenVehicleService;
 
     @PostConstruct
     public void init() {
-        StolenCar stolenVolvo = new StolenCar("Volvo", true);
-        this.stolenCarService.create(stolenVolvo);
+        StolenVehicle stolenVolvo = new StolenVehicle("08-SK-PX", true);
+        this.stolenVehicleService.create(stolenVolvo);
 
-        StolenCar resolvedCampers = new StolenCar("Campers", false);
-        this.stolenCarService.create(resolvedCampers);
+        StolenVehicle resolvedCampers = new StolenVehicle("12-ASD-76", false);
+        this.stolenVehicleService.create(resolvedCampers);
     }
 
 }
