@@ -2,16 +2,16 @@ package domain;
 
 import javax.json.Json;
 import javax.json.JsonObject;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 
 /**
  * Created by Martijn van der Pol on 30-05-18
  **/
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "StolenVehicle.findAllStolenVehicles", query = "SELECT v FROM StolenVehicle v WHERE v.isStolen = :isStolen")
+})
 public class StolenVehicle implements Serializable {
 
     @Id

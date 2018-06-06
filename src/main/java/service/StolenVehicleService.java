@@ -48,6 +48,14 @@ public class StolenVehicleService {
     }
 
     /**
+     * Function to find all StolenVehicles that are currently not resolved in the database
+     *
+     * @return all StolenCars found in the database who are currently stolen
+     */
+    public List<StolenVehicle> findAll(boolean isStolen) {
+        return this.stolenVehicleDao.findAll(isStolen);
+    }
+    /**
      * Function to find all StolenCars in the database
      *
      * @return all StolenCars found in the database

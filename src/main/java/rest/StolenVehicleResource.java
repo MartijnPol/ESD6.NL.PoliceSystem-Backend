@@ -20,23 +20,31 @@ import java.util.List;
 public class StolenVehicleResource {
 
     @Inject
-    private StolenVehicleService stolenCarService;
+    private StolenVehicleService stolenVehicleService;
 
     /**
-     * Resource to get all StolenCars from the database
+     * Find all stolen vehicles based on given isStolen param
      *
-     * @return a (JSON) list of all StolenCars
+     * @param isStolen whether the vehicles are stolen or not
+     * @return a List containing all requested type of vehicles
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response findAll() {
-        List<StolenVehicle> stolenCarList = stolenCarService.findAll();
+    public Response findAll(@QueryParam("isStolen") Boolean isStolen) {
+
+        List<StolenVehicle> stolenCarList;
+
+        if (isStolen == null) {
+            stolenCarList = stolenVehicleService.findAll();
+        } else {
+            stolenCarList = stolenVehicleService.findAll(isStolen);
+        }
 
         if (stolenCarList.isEmpty()) {
             throw new WebApplicationException(Response.Status.NOT_FOUND);
         }
 
-        return Response.ok(stolenCarService.convertToJson(stolenCarList)).build();
+        return Response.ok(stolenVehicleService.convertToJson(stolenCarList)).build();
     }
 
     /**
@@ -49,7 +57,7 @@ public class StolenVehicleResource {
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response findById(@PathParam("id") Long id) {
-        StolenVehicle stolenCar = stolenCarService.findById(id);
+        StolenVehicle stolenCar = stolenVehicleService.findById(id);
 
         if (stolenCar == null) {
             throw new WebApplicationException(Response.Status.NOT_FOUND);
@@ -72,7 +80,7 @@ public class StolenVehicleResource {
             throw new WebApplicationException(Response.Status.NOT_FOUND);
         }
         StolenVehicle stolenCar = new StolenVehicle(json.getString("licensePlate"), json.getBoolean("isStolen"));
-        stolenCar = stolenCarService.create(stolenCar);
+        stolenCar = stolenVehicleService.create(stolenCar);
         URI id = URI.create(stolenCar.getId().toString());
         return Response.created(id).build();
     }
