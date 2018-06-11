@@ -2,6 +2,7 @@ package rest;
 
 import domain.StolenVehicle;
 import service.StolenVehicleService;
+import websocket.ReloadWebSocketServer;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -9,7 +10,6 @@ import javax.json.JsonObject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.net.URI;
 import java.util.List;
 
 /**
@@ -40,10 +40,6 @@ public class StolenVehicleResource {
             stolenCarList = stolenVehicleService.findAll(isStolen);
         }
 
-        if (stolenCarList.isEmpty()) {
-            throw new WebApplicationException(Response.Status.NOT_FOUND);
-        }
-
         return Response.ok(stolenVehicleService.convertToJson(stolenCarList)).build();
     }
 
@@ -70,7 +66,7 @@ public class StolenVehicleResource {
      * Resource to create a new StolenVehicle
      *
      * @param json is the new StolenVehicle object in a JSONObject
-     * @return returns a link created with the new id
+     * @return status
      */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -79,9 +75,34 @@ public class StolenVehicleResource {
         if (json == null) {
             throw new WebApplicationException(Response.Status.NOT_FOUND);
         }
-        StolenVehicle stolenCar = new StolenVehicle(json.getString("licensePlate"), json.getBoolean("isStolen"));
-        stolenCar = stolenVehicleService.create(stolenCar);
-        URI id = URI.create(stolenCar.getId().toString());
-        return Response.created(id).build();
+        StolenVehicle stolenCar = new StolenVehicle(json.getString("licensePlate").toUpperCase(), json.getBoolean("isStolen"));
+        stolenVehicleService.create(stolenCar);
+        ReloadWebSocketServer.broadcastMessage("reload");
+        return Response.ok().build();
+    }
+
+    /**
+     * Resource to update an existing StolenVehicle
+     *
+     * @param json is the updated StolenVehicle
+     * @return updated StolenVehicle
+     */
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response update(JsonObject json) {
+        if (json == null) {
+            throw new WebApplicationException(Response.Status.NOT_FOUND);
+        }
+
+        StolenVehicle updatedVehicle = stolenVehicleService.findById(new Long(json.getJsonNumber("id").toString()));
+        if (updatedVehicle == null) {
+            throw new WebApplicationException(Response.Status.NOT_FOUND);
+        }
+
+        updatedVehicle.setStolen(Boolean.valueOf(json.getString("isStolen")));
+        stolenVehicleService.update(updatedVehicle);
+        ReloadWebSocketServer.broadcastMessage("reload");
+        return Response.ok(updatedVehicle.toJson()).build();
     }
 }

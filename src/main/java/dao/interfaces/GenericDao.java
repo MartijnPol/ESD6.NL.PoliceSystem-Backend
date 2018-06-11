@@ -13,6 +13,8 @@ public interface GenericDao<T> {
 
     void delete(T t);
 
+    T update(T t);
+
     T findById(Long id);
 
     List<T> findAll();

@@ -38,6 +38,16 @@ public class StolenVehicleService {
     }
 
     /**
+     * Function to update a new StolenVehicle
+     *
+     * @param stolenVehicle is the StolenVehicle that needs to be updated
+     * @return the updated StolenVehicle
+     */
+    public StolenVehicle update(StolenVehicle stolenVehicle) {
+        return this.stolenVehicleDao.update(stolenVehicle);
+    }
+
+    /**
      * Function to find a specific StolenVehicle by it's id
      *
      * @param id is the id of the StolenVehicle
@@ -55,6 +65,7 @@ public class StolenVehicleService {
     public List<StolenVehicle> findAll(boolean isStolen) {
         return this.stolenVehicleDao.findAll(isStolen);
     }
+
     /**
      * Function to find all StolenCars in the database
      *

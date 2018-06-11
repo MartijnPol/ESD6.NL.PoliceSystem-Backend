@@ -23,6 +23,12 @@ public class StolenVehicle implements Serializable {
     public StolenVehicle() {
     }
 
+    public StolenVehicle(Long id, String licensePlate, boolean isStolen) {
+        this.id = id;
+        this.licensePlate = licensePlate;
+        this.isStolen = isStolen;
+    }
+
     public StolenVehicle(String licensePlate, boolean isStolen) {
         this.licensePlate = licensePlate;
         this.isStolen = isStolen;
