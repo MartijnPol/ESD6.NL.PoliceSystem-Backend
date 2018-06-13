@@ -1,6 +1,11 @@
 package rest;
 
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.JsonNode;
+import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.exceptions.UnirestException;
 import domain.StolenVehicle;
+import helpers.RestHelper;
 import service.StolenVehicleService;
 import websocket.ReloadWebSocketServer;
 
@@ -60,6 +65,21 @@ public class StolenVehicleResource {
         }
 
         return Response.ok(stolenCar.toJson()).build();
+    }
+
+    @GET
+    @Path("/find/owners")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response findByLicensePlate(@QueryParam("licensePlate") String licensePlate) {
+        try {
+            HttpResponse<JsonNode> response = Unirest.get("http://192.168.25.122:8080/AccountAdministrationSystem/api/cars/find/" + licensePlate)
+                    .header("Authorization", "Bearer" + RestHelper.getAasJwtToken())
+                    .asJson();
+            return Response.ok(response.getBody().toString()).build();
+        } catch (UnirestException e) {
+            e.printStackTrace();
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
     }
 
     /**
