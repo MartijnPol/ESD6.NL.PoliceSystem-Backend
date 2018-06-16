@@ -6,6 +6,7 @@ import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import domain.StolenVehicle;
 import helpers.RestHelper;
+import jwt.SecuredWithJWT;
 import service.StolenVehicleService;
 import websocket.WebSocketServer;
 
@@ -20,8 +21,9 @@ import java.util.List;
 /**
  * Created by Martijn van der Pol on 30-05-18
  **/
-@Path("StolenCars")
+@Path("stolen-vehicles")
 @Stateless
+@SecuredWithJWT
 public class StolenVehicleResource {
 
     @Inject
