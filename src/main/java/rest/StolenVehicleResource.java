@@ -7,7 +7,7 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 import domain.StolenVehicle;
 import helpers.RestHelper;
 import service.StolenVehicleService;
-import websocket.ReloadWebSocketServer;
+import websocket.WebSocketServer;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -95,9 +95,23 @@ public class StolenVehicleResource {
         if (json == null) {
             throw new WebApplicationException(Response.Status.NOT_FOUND);
         }
-        StolenVehicle stolenCar = new StolenVehicle(json.getString("licensePlate").toUpperCase(), json.getBoolean("isStolen"));
-        stolenVehicleService.create(stolenCar);
-        ReloadWebSocketServer.broadcastMessage("reload");
+        String licensePlate = json.getString("licensePlate");
+        boolean isStolen = json.getBoolean("isStolen");
+
+        // Check if vehicle is stolen before (no duplicate entries in PoliceSystem database)
+        StolenVehicle foundVehicle = this.stolenVehicleService.findByLicensePlate(licensePlate);
+        if (foundVehicle != null) {
+            if (!foundVehicle.isStolen()) {
+                foundVehicle.setStolen(isStolen);
+                stolenVehicleService.update(foundVehicle);
+                WebSocketServer.broadcastMessage("reload");
+            }
+        } else {
+            StolenVehicle stolenCar = new StolenVehicle(licensePlate, isStolen);
+            stolenVehicleService.create(stolenCar);
+            WebSocketServer.broadcastMessage("reload");
+        }
+
         return Response.ok().build();
     }
 
@@ -122,7 +136,7 @@ public class StolenVehicleResource {
 
         updatedVehicle.setStolen(Boolean.valueOf(json.getString("isStolen")));
         stolenVehicleService.update(updatedVehicle);
-        ReloadWebSocketServer.broadcastMessage("reload");
+        WebSocketServer.broadcastMessage("reload");
         return Response.ok(updatedVehicle.toJson()).build();
     }
 }

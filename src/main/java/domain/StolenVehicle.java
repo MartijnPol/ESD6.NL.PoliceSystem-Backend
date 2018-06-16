@@ -10,6 +10,7 @@ import java.io.Serializable;
  **/
 @Entity
 @NamedQueries({
+        @NamedQuery(name = "StolenVehicle.findByLicensePlate", query = "SELECT v FROM StolenVehicle v WHERE v.licensePlate = :licensePlate"),
         @NamedQuery(name = "StolenVehicle.findAllStolenVehicles", query = "SELECT v FROM StolenVehicle v WHERE v.isStolen = :isStolen")
 })
 public class StolenVehicle implements Serializable {

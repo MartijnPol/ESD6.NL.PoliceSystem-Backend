@@ -14,8 +14,8 @@ import java.util.HashMap;
  * Created by Martijn van der Pol on 11-06-18
  **/
 
-@ServerEndpoint("/reload")
-public class ReloadWebSocketServer {
+@ServerEndpoint("/socket")
+public class WebSocketServer {
 
     private static HashMap<String, Session> sessionSet = new HashMap<>();
 

@@ -11,4 +11,6 @@ public interface StolenVehicleDao extends GenericDao<StolenVehicle> {
 
     List<StolenVehicle> findAll(boolean isStolen);
 
+    StolenVehicle findByLicensePlate(String licensePlate);
+
 }

@@ -76,6 +76,16 @@ public class StolenVehicleService {
     }
 
     /**
+     * Function to find a Stolen Vehicle based on the given LicensePlate
+     *
+     * @param licensePlate the LicensePlate of the stolen vehicle
+     * @return the StolenVehicle, if found
+     */
+    public StolenVehicle findByLicensePlate(String licensePlate) {
+        return this.stolenVehicleDao.findByLicensePlate(licensePlate);
+    }
+
+    /**
      * Function to convert all StolenCars in a List to JsonObjects
      *
      * @param stolenVehicles List of stolen vehicles
