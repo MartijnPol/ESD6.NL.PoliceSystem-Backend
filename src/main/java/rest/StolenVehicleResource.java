@@ -84,6 +84,22 @@ public class StolenVehicleResource {
         }
     }
 
+    @GET
+    @Path("/find/rules")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response findByLicensePlate(@QueryParam("trackerId") String trackerId, @QueryParam("amount") int amount) {
+        try {
+            HttpResponse<JsonNode> response = Unirest.get("http://localhost:8080/DisplacementSystem/api/carTrackerRules/amountOfRulesByCarTrackerId")
+                    .queryString("id", trackerId)
+                    .queryString("amount", amount)
+                    .asJson();
+            return Response.ok(response.getBody().toString()).build();
+        } catch (UnirestException e) {
+            e.printStackTrace();
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+    }
+
     /**
      * Resource to create a new StolenVehicle
      *
