@@ -89,7 +89,7 @@ public class StolenVehicleResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response findByLicensePlate(@QueryParam("trackerId") String trackerId, @QueryParam("amount") int amount) {
         try {
-            HttpResponse<JsonNode> response = Unirest.get("http://localhost:8080/DisplacementSystem/api/carTrackerRules/amountOfRulesByCarTrackerId")
+            HttpResponse<JsonNode> response = Unirest.get("http://192.168.25.122:77/DisplacementSystem/api/carTrackerRules/amountOfRulesByCarTrackerId")
                     .queryString("id", trackerId)
                     .queryString("amount", amount)
                     .asJson();
