@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE resources PUBLIC
+        "-//GlassFish.org//DTD GlassFish Application Server 3.1 Resource Definitions//EN"
+        "http://glassfish.org/dtds/glassfish-resources_1_5.dtd">
+<resources>
+    <jdbc-connection-pool datasource-classname="com.mysql.jdbc.jdbc2.optional.MysqlDataSource" name="PoliceSystemPU"
+                          res-type="javax.sql.DataSource">
+        <property name="password" value="root"/>
+        <property name="databaseName" value="PoliceSystem"/>
+        <property name="serverName" value="192.168.25.122"/>
+        <property name="user" value="root"/>
+        <property name="portNumber" value="3306"/>
+    </jdbc-connection-pool>
+    <jdbc-resource pool-name="PoliceSystemPU" jndi-name="jdbc/PoliceSystem" enabled="true"/>
+</resources>
