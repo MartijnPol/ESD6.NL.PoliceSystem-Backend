@@ -23,11 +23,8 @@ public class StartUp {
 
     @PostConstruct
     public void init() {
-        StolenVehicle stolenVolvo = new StolenVehicle("08-SK-PX", true);
-        this.stolenVehicleService.create(stolenVolvo);
-
-        StolenVehicle resolvedCampers = new StolenVehicle("00-01-ES", false);
-        this.stolenVehicleService.create(resolvedCampers);
+        StolenVehicle stolenYaris = new StolenVehicle("08-SK-PX", true);
+        this.stolenVehicleService.create(stolenYaris);
 
         Account adminAccount = new Account("admin", "admin");
         this.accountService.create(adminAccount);
